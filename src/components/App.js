@@ -59,7 +59,7 @@ class App extends Component {
     return imageUrls.map((url, i) => {
       return (
         <div className="col-md-3 mb-2" key={i}>
-          <img src={BASE_URL + url} className="w-100" alt="not available" />
+          <img src={BASE_URL + url} className="w-100" alt="img_names" />
         </div>
       );
     });
