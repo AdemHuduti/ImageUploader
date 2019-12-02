@@ -27,7 +27,6 @@ class App extends Component {
       const data = new FormData();
       data.append("image", image, image.name);
 
-      // Make an AJAX upload request using Axios
       // ispod ovoga probaj uraditi progressBar
       return axios.post(BASE_URL + "upload", data).then(response => {
         this.setState({
