@@ -45,7 +45,6 @@ class App extends Component {
         });
     });
 
-    // Once all the files are uploaded
     axios
       .all(uploaders)
       .then(() => {
@@ -58,12 +57,19 @@ class App extends Component {
     const { imageUrls } = this.state;
     return imageUrls.map((url, i) => {
       return (
-        <div className="col-md-3 mb-2" key={i}>
+        <div className="col-md-3 mt-2 mb-2" key={i}>
           <img src={BASE_URL + url} className="w-100" alt="img_names" />
+          <button onClick={() => this.removeItem(i)}>X</button>
         </div>
       );
     });
   };
+
+  removeItem(index) {
+    this.setState({
+      imageUrls: this.state.imageUrls.filter((x, i) => i !== index)
+    });
+  }
 
   render() {
     return (
@@ -74,7 +80,7 @@ class App extends Component {
           <div className="col-sm-4 ">
             <input type="file" onChange={this.selectImages} multiple />
           </div>
-          <p className="text-info">{this.state.message}</p>
+          {/* <p className="text-info">{this.state.message}</p> */}
           <div className="col-sm-4">
             <button
               className="btn btn-primary"
