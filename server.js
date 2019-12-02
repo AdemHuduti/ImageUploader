@@ -6,7 +6,7 @@ const app = express();
 
 app.use(express.static("public"));
 
-var storage = multer.diskStorage({
+let storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/images/uploads");
   },
