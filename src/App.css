@@ -1,0 +1,9 @@
+.parent {
+    position: relative;
+}
+
+.parent button {
+    position: absolute;
+    top: 0;
+    right: 16px;
+}

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Progress from "./Progress";
 import axios from "axios";
+import "../App.css";
 const BASE_URL = "http://localhost:8000/";
 
 class App extends Component {
@@ -26,48 +27,46 @@ class App extends Component {
   };
 
   uploadImages = () => {
-    const uploaders = this.state.images.map(image => {
+    return this.state.images.map(image => {
       const data = new FormData();
       data.append("image", image, image.name);
 
-      return axios
-        .post(BASE_URL + "upload", data, {
-          onUploadProgress: ProgressEvent => {
-            this.setState({
-              loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100
-            });
-          }
-        })
-        .then(response => {
+      let config = {
+        onUploadProgress: ProgressEvent => {
           this.setState({
-            imageUrls: [response.data.imageUrl, ...this.state.imageUrls]
+            loaded: (ProgressEvent.loaded / ProgressEvent.total) * 100
           });
-        });
-    });
+        }
+      };
 
-    axios
-      .all(uploaders)
-      .then(() => {
-        console.log("done");
-      })
-      .catch(err => alert(err.message));
+      return axios.post(BASE_URL + "upload", data, config).then(response => {
+        this.setState({
+          imageUrls: [response.data.imageUrl, ...this.state.imageUrls]
+        });
+      });
+    });
   };
 
   showImages = () => {
     const { imageUrls } = this.state;
     return imageUrls.map((url, i) => {
       return (
-        <div className="col-md-3 mt-2 mb-2" key={i}>
-          <img src={BASE_URL + url} className="w-100" alt="img_names" />
-          <button onClick={() => this.removeItem(i)}>X</button>
+        <div className="col-md-3 mt-2 mb-2 parent" key={i}>
+          <div className="card">
+            <img src={BASE_URL + url} className="w-100 card-img=top" alt="img_names" />
+          </div>
+
+          <button className="btn btn-danger btn-sm" onClick={() => this.removeItem(i)}>
+            <i className="fa fa-trash"></i>
+          </button>
         </div>
       );
     });
   };
 
-  removeItem(index) {
+  removeItem(item) {
     this.setState({
-      imageUrls: this.state.imageUrls.filter((x, i) => i !== index)
+      imageUrls: this.state.imageUrls.filter((x, i) => i !== item)
     });
   }
 
@@ -80,7 +79,7 @@ class App extends Component {
           <div className="col-sm-4 ">
             <input type="file" onChange={this.selectImages} multiple />
           </div>
-          {/* <p className="text-info">{this.state.message}</p> */}
+          <p className="text-info">{this.state.message}</p>
           <div className="col-sm-4">
             <button
               className="btn btn-primary"
