@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Progress from "./Progress";
 import axios from "axios";
 import "../App.css";
+import { Container, Row, Col, Card, CardImg } from "reactstrap";
+
 const BASE_URL = "http://localhost:8000/";
 
 class App extends Component {
@@ -51,15 +53,22 @@ class App extends Component {
     const { imageUrls } = this.state;
     return imageUrls.map((url, i) => {
       return (
-        <div className="col-md-3 mt-2 mb-2 parent" key={i}>
-          <div className="card">
-            <img src={BASE_URL + url} className="w-100 card-img=top" alt="img_names" />
-          </div>
-
-          <button className="btn btn-danger btn-sm" onClick={() => this.removeItem(i)}>
-            <i className="fa fa-trash"></i>
-          </button>
-        </div>
+        <Col md="3" className="mt-2 mb-2 parent" key={i}>
+          <Card>
+            <CardImg
+              top
+              width="100%"
+              src={BASE_URL + url}
+              alt="Card image cap"
+            />
+            <p
+              className="btn btn-danger btn-sm"
+              onClick={() => this.removeItem(i)}
+            >
+              <i className="fa fa-trash"></i>
+            </p>
+          </Card>
+        </Col>
       );
     });
   };
@@ -72,15 +81,14 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container ">
+      <Container>
         <h1 className="text-center">Image Uploader</h1>
         <Progress percentage={this.state.loaded} />
-        <div className="row">
-          <div className="col-sm-4 ">
+        <Row>
+          <Col md="4">
             <input type="file" onChange={this.selectImages} multiple />
-          </div>
-          <p className="text-info">{this.state.message}</p>
-          <div className="col-sm-4">
+          </Col>
+          <Col md="4">
             <button
               className="btn btn-primary"
               value="Submit"
@@ -88,10 +96,12 @@ class App extends Component {
             >
               Submit
             </button>
-          </div>
-          {this.showImages()}
-        </div>
-      </div>
+
+            <p className="text-info">{this.state.message}</p>
+          </Col>
+        </Row>
+        <Row>{this.showImages()}</Row>
+      </Container>
     );
   }
 }
