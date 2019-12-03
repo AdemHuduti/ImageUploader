@@ -24,8 +24,10 @@ class App extends Component {
     }
 
     images = images.filter(image => image.name.match(/\.(jpg|jpeg|png|gif)$/));
-    let message = `${images.length} valid image(s) selected`;
-    this.setState({ images, message });
+    if (images) {
+      let message = `${images.length} valid image(s) selected`;
+      this.setState({ images, message });
+    }
   };
 
   uploadImages = () => {
@@ -86,11 +88,11 @@ class App extends Component {
         <Progress percentage={this.state.loaded} />
         <Row>
           <Col md="4">
-            <input type="file" onChange={this.selectImages} multiple />
+            <input className="mt-2" type="file" onChange={this.selectImages} multiple />
           </Col>
           <Col md="4">
             <button
-              className="btn btn-primary"
+              className="btn btn-primary mt-2"
               value="Submit"
               onClick={this.uploadImages}
             >
